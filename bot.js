@@ -10,7 +10,7 @@ class EchoBot extends ActivityHandler {
         this.onMessage(async (context, next) => {
             await context.sendActivity(`Your message contains: 
                 text: '${ context.activity.text }
-                
+                '${ context.activity.recipien }'
          '`);
 
             // By calling next() you ensure that the next BotHandler is run.
@@ -28,7 +28,73 @@ class EchoBot extends ActivityHandler {
             await next();
         });
         
-        this.on
+        this.onConversationUpdate(async (context, next) => {
+            await context.sendActivity('[conversationUpdate event detected]');
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
+        });
+
+        this.onMembersRemoved(async (context, next) => {
+            await context.sendActivity('[onMembersRemoved event detected]');
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
+        });
+
+        this.onMessageReaction(async (context, next) => {
+            await context.sendActivity('[onMessageReaction event detected]');
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
+        });        
+
+		this.onReactionsAdded(async (context, next) => {
+            await context.sendActivity('[onReactionsAdded event detected]');
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
+        });        
+
+		this.onReactionsRemoved(async (context, next) => {
+            await context.sendActivity('[onReactionsRemoved event detected]');
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
+        });        
+
+		this.onEvent(async (context, next) => {
+            await context.sendActivity('[onEvent event detected]');
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
+        });        
+
+		this.onTokenResponseEvent(async (context, next) => {
+            await context.sendActivity('[onTokenResponseEvent event detected]');
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
+        });        
+
+		this.onUnrecognizedActivityType(async (context, next) => {
+            await context.sendActivity('[onUnrecognizedActivityType event detected]');
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
+        });        
+
+		this.onDialog(async (context, next) => {
+            await context.sendActivity('[onDialog event detected]');
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
+        });        
+
+		this.onTurn(async (context, next) => {
+            await context.sendActivity('[onTurn event detected]');
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
+        });
+//
+//
+//
+//
+//
+//
+//
+//
     }
 }
 
