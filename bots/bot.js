@@ -96,13 +96,13 @@ class EchoBot extends ActivityHandler {
 		});
 
 		this.onDialog(async (context, next) => {
-			await context.sendActivity('[onDialog event detected]');
+			//await context.sendActivity('[onDialog event detected]');
 			// By calling next() you ensure that the next BotHandler is run.
 			await next();
 		});
 
 		this.onTurn(async (context, next) => {
-			await context.sendActivity('[onTurn event detected]');
+			//await context.sendActivity('[onTurn event detected]');
 			// By calling next() you ensure that the next BotHandler is run.
 			await next();
 		});
