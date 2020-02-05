@@ -59,7 +59,6 @@ class EchoBot extends TeamsActivityHandler {
 				case 'finish':
 					//streiche alle verbleibenden Teilnehmer, so als hätten sie skip eingegeben
 					//auswerten
-					await context.sendActivity(`par: '${conversationData.participiants.length}', est: '${conversationData.estimations.length}'`);
 					
 					let estimationCnt = new Map();
 										
@@ -70,8 +69,6 @@ class EchoBot extends TeamsActivityHandler {
 							estimationCnt.set(conversationData.estimations[cnt].estimation, 1);
 						}
 					}
-					
-					await context.sendActivity(`${estimationCnt.size}`);
 					
 					for (const[key, value] of estimationCnt.entries()) {
 						await context.sendActivity(`'${key}' = '${value}'`)
