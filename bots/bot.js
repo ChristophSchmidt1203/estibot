@@ -12,16 +12,19 @@ class EchoBot extends ActivityHandler {
 
 			TurnContext.removeRecipientMention(context.activity);
 			const input = context.activity.text.trim();
-			const tokens = input.split("\s");
+			const tokens = input.split(" ");
 			const command = tokens[0];
 			const args = tokens.slice(1);
 
+			await context.sendActivity(`command: '${ command }'`);
+			await context.sendActivity(`args: '${ args.join(" ") }'`);
+
 			switch (command) {
 				case 'start':
-					await context.sendActivity(`Starting Estimation Poker '${args.join(" ")}'`);
+					await context.sendActivity(`Starting Estimation Poker '${ args.join(" ") }'`);
 					break;
 				default:
-					await context.sendActivity(`Unsupported command: '${tokens[0]}'`);
+					await context.sendActivity(`Unsupported command: '${ command }'`);
 
 					break;
 			}
