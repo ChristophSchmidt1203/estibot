@@ -9,16 +9,15 @@ class EchoBot extends ActivityHandler {
 		// See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
 		this.onMessage(async (context, next) => {
 			await context.sendActivity(`Your message contains: text: '${context.activity.text}'`);
-			const turnContext = new TurnContext(this, context.activity);
 
 			const input = context.activity.text;
 
-			const mentions = TurnContext.getMentions(turnContext.activity);
+			const mentions = TurnContext.getMentions(context.activity);
 			if (mentions) {
 				const firstMention = mentions[0].mentioned;
-				await turnContext.sendActivity(`Mention: ${firstMention.name}.`);
+				await context.sendActivity(`Mention: ${firstMention.name}.`);
 			} else {
-				await turnContext.sendActivity(`Aw, no one was mentioned.`);
+				await context.sendActivity(`Aw, no one was mentioned.`);
 			}
 
 
