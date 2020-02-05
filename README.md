@@ -33,3 +33,4 @@ $> 2
 * https://gate4.com/blog/wie-baut-man-einen-microsoft-teams-bot/
 * https://gate4.com/blog/wie-deployed-man-einen-microsoft-teams-bot/
 * https://www.reddit.com/r/autowikibot/wiki/redditbots
+* Samples: git clone https://github.com/microsoft/BotBuilder-Samples.git
