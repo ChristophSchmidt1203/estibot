@@ -22,7 +22,7 @@ class EchoBot extends TeamsActivityHandler {
 
 		// See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
 		this.onMessage(async (context, next) => {
-			await context.sendActivity(`input: '${context.activity.text}'`);
+			//await context.sendActivity(`input: '${context.activity.text}'`);
 
 			TurnContext.removeRecipientMention(context.activity);
 			const input = context.activity.text.trim();
@@ -33,8 +33,8 @@ class EchoBot extends TeamsActivityHandler {
 			const conversationData = await this.conversationDataAccessor.get(
 				context, { currentRound: "", participiants: [], estimations: [] });
 
-			await context.sendActivity(`command: '${command}'`);
-			await context.sendActivity(`args: '${args.join(" ")}'`);
+			//await context.sendActivity(`command: '${command}'`);
+			//await context.sendActivity(`args: '${args.join(" ")}'`);
 
 			switch (command) {
 				case 'start':
@@ -44,11 +44,15 @@ class EchoBot extends TeamsActivityHandler {
 					conversationData.currentRound = args.join(" ");
 					conversationData.participiants = TeamsInfo.getMembers(context);
 
+					await context.sendActivity(`Participiants: '${conversationData.participiants}'`)
+
 					await this.messageAllMembersAsync(context, "Give me your estimation by telling me 'esti x', where x is your nummerical estimation without a unit. For example 'esti 5'. Use 'skip' to skip this round.");
 					break;
 				case 'skip':
 					//streiche sender von der Teilnehmerliste der aktuellen Runde, ohne einen Wert für ihn zu erfassen
 					await context.sendActivity(`${context.activity.from.name} skipped '${conversationData.currentRound}'`);
+					//conversationData.participiants[context.activity.from.id] = context.activity.from;
+					//conversationData.estimations[]
 					break;
 				case 'esti':
 					//streiche sender von der Teilnehmerliste und erfasse tokens[1] als Schätzwert für ihn
