@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityHandler, TurnContext, ConversationState, MemoryStorage, UserState } = require('botbuilder');
+const { ActivityHandler, TurnContext, TeamsInfo, ConversationState, MemoryStorage, UserState } = require('botbuilder');
 
 class EchoBot extends ActivityHandler {
 	constructor() {
