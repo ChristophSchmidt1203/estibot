@@ -24,6 +24,14 @@ class EchoBot extends TeamsActivityHandler {
 					await context.sendActivity(`Starting Estimation Poker for '${args.join(" ")}'`);
 					await this.messageAllMembersAsync(context, "Give me your estimation by telling me 'esti x', where x is your nummerical estimation without a unit. For example 'esti 5'. Use 'skip' to skip this round.");
 					break;
+				case 'skip':
+					//streiche sender von der Teilnehmerliste der aktuellen Runde, ohne einen Wert für ihn zu erfassen
+					await context.sendActivity(`${ context.activity.from } skipped`);
+					break;
+				case 'esti':
+					//streiche sender von der Teilnehmerliste und erfasse tokens[1] als Schätzwert für ihn
+					await context.sendActivity(`${ context.activity.from } estimates ${ tokens[1] } units.`);
+					break;
 				default:
 					await context.sendActivity(`Unsupported command: '${command}'`);
 
