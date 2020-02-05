@@ -43,8 +43,10 @@ class EchoBot extends TeamsActivityHandler {
 					// Add message details to the conversation data.
 					conversationData.currentRound = args.join(" ");
 					conversationData.participiants = TeamsInfo.getMembers(context);
-
-					await context.sendActivity(`Participiants: '${conversationData.participiants}'`)
+					
+					conversationData.participiants.forEach(async (teamMember) => {
+						await context.sendActivity(`'${teamMember.name}'`)
+					});
 
 					await this.messageAllMembersAsync(context, "Give me your estimation by telling me 'esti x', where x is your nummerical estimation without a unit. For example 'esti 5'. Use 'skip' to skip this round.");
 					break;
