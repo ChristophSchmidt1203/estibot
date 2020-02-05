@@ -8,16 +8,22 @@ class EchoBot extends ActivityHandler {
 		super();
 		// See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
 		this.onMessage(async (context, next) => {
-			await context.sendActivity(`Your message contains: text: '${context.activity.text}'`);
+			await context.sendActivity(`input: '${context.activity.text}'`);
 
-			const input = context.activity.text;
+			TurnContext.removeRecipientMention(context.activity);
+			const input = context.activity.text.trim();
+			const tokens = input.split("\s");
+			const command = tokens[0];
+			const arguments = tokens.slice(1);
 
-			const mentions = TurnContext.getMentions(context.activity);
-			if (mentions) {
-				const firstMention = mentions[0].mentioned;
-				await context.sendActivity(`Mention: ${firstMention.name}.`);
-			} else {
-				await context.sendActivity(`Aw, no one was mentioned.`);
+			switch (command) {
+				case 'start':
+					await context.sendActivity(`Starting Estimation Poker '${arguments.join(" ")}'`);
+					break;
+				default:
+					await context.sendActivity(`Unsupported command: '${tokens[0]}'`);
+
+					break;
 			}
 
 
