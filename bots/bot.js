@@ -44,7 +44,7 @@ class EchoBot extends TeamsActivityHandler {
 					conversationData.currentRound = args.join(" ");
 					conversationData.participiants = TeamsInfo.getMembers(context);
 					
-					const members = TeamsInfo.getMembers(context);
+					const members = await TeamsInfo.getMembers(context);
 					
 					members.forEach(async (teamMember) => {
 						await context.sendActivity(`name:      '${teamMember.name}'`);
