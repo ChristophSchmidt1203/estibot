@@ -7,7 +7,7 @@ const restify = require('restify');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter } = require('botbuilder');
+const { BotFrameworkAdapter, UserState, MemoryStorage, ConversationState } = require('botbuilder');
 
 // This bot's main dialog.
 const { EchoBot } = require('./bots/bot');
