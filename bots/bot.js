@@ -54,7 +54,7 @@ class EchoBot extends TeamsActivityHandler {
 				case 'esti':
 					//streiche sender von der Teilnehmerliste und erfasse tokens[1] als Schätzwert für ihn
 					await context.sendActivity(`${context.activity.from.name} estimates ${tokens[1]} units for '${conversationData.currentRound}'.`);
-					conversationData.estimations[context.activity.from.id] = tokens[1];
+					conversationData.estimations.push({id: context.activity.from.id, esti: tokens[1]});
 					break;
 				case 'finish':
 					//streiche alle verbleibenden Teilnehmer, so als hätten sie skip eingegeben
