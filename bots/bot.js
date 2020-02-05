@@ -133,7 +133,7 @@ class EchoBot extends TeamsActivityHandler {
 
 		members.forEach(async (teamMember) => {
 			//const message = MessageFactory.text(`Hello ${teamMember.givenName} ${teamMember.surname}. I'm a Teams conversation bot.`);
-			const message = MessageFactory.text(`${ message }`);
+			const output = MessageFactory.text(`${ message }`);
 
 			var ref = TurnContext.getConversationReference(context.activity);
 			ref.user = teamMember;
@@ -142,7 +142,7 @@ class EchoBot extends TeamsActivityHandler {
 				async (t1) => {
 					const ref2 = TurnContext.getConversationReference(t1.activity);
 					await t1.adapter.continueConversation(ref2, async (t2) => {
-						await t2.sendActivity(message);
+						await t2.sendActivity(output);
 					});
 				});
 		});
