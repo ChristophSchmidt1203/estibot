@@ -55,7 +55,7 @@ adapter.onTurnError = async (context, error) => {
 };
 
 // Create the main dialog.
-const myBot = new ConvoBot();
+const myBot = new EchoBot();
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
