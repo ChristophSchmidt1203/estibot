@@ -44,32 +44,28 @@ class EchoBot extends TeamsActivityHandler {
 					conversationData.currentRound = args.join(" ");
 					conversationData.participiants = TeamsInfo.getMembers(context);
 					
-					const members = await TeamsInfo.getMembers(context);
-					
-					members.forEach(async (teamMember) => {
-						await context.sendActivity(`name: '${teamMember.name}', id: '${teamMember.id}', givenname: '${teamMember.givenName}', surname: '${teamMember.surname}'`);
-					});
-					
-					await context.sendActivity(`${context.activity.from.id} starting estimation`);
-
 					await this.messageAllMembersAsync(context, "Give me your estimation by telling me 'esti x', where x is your nummerical estimation without a unit. For example 'esti 5'. Use 'skip' to skip this round.");
 					break;
 				case 'skip':
 					//streiche sender von der Teilnehmerliste der aktuellen Runde, ohne einen Wert für ihn zu erfassen
 					await context.sendActivity(`${context.activity.from.name} skipped '${conversationData.currentRound}'`);
-					//conversationData.participiants[context.activity.from.id] = context.activity.from;
-					//conversationData.estimations[]
+					conversationData.estimations[context.activity.from.id] = "skip";
 					break;
 				case 'esti':
 					//streiche sender von der Teilnehmerliste und erfasse tokens[1] als Schätzwert für ihn
 					await context.sendActivity(`${context.activity.from.name} estimates ${tokens[1]} units for '${conversationData.currentRound}'.`);
+					conversationData.estimations[context.activity.from.id] = tokens[1];
 					break;
 				case 'finish':
 					//streiche alle verbleibenden Teilnehmer, so als hätten sie skip eingegeben
 					//auswerten
+					for (var member in conversationData.participiants) {
+						await context.sendActivity(`${conversationData.estimations[member.id]}'`);
+					}
 					//zurücksetzen
 					conversationData.currentRound = "";
 					conversationData.participiants = [];
+					conversationData.estimations = [];
 
 					break;
 				default:
