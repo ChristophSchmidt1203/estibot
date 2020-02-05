@@ -44,8 +44,13 @@ class EchoBot extends TeamsActivityHandler {
 					conversationData.currentRound = args.join(" ");
 					conversationData.participiants = TeamsInfo.getMembers(context);
 					
-					conversationData.participiants.forEach(async (teamMember) => {
-						await context.sendActivity(`'${teamMember.name}'`)
+					const members = TeamsInfo.getMembers(context);
+					
+					members.forEach(async (teamMember) => {
+						await context.sendActivity(`name:      '${teamMember.name}'`);
+						await context.sendActivity(`id:        '${teamMember.id}'`);
+						await context.sendActivity(`givenname: '${teamMember.givenname}'`);
+						await context.sendActivity(`surname:   '${teamMember.surname}'`);
 					});
 
 					await this.messageAllMembersAsync(context, "Give me your estimation by telling me 'esti x', where x is your nummerical estimation without a unit. For example 'esti 5'. Use 'skip' to skip this round.");
