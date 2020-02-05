@@ -10,7 +10,8 @@ const restify = require('restify');
 const { BotFrameworkAdapter } = require('botbuilder');
 
 // This bot's main dialog.
-const { EchoBot } = require('./bot');
+const { EchoBot } = require('./bots/bot');
+const { ConvoBot } = require('./bots/teamsconvobot');
 
 // Import required bot configuration.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -54,7 +55,7 @@ adapter.onTurnError = async (context, error) => {
 };
 
 // Create the main dialog.
-const myBot = new EchoBot();
+const myBot = new ConvoBot();
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
