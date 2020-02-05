@@ -59,9 +59,7 @@ class EchoBot extends TeamsActivityHandler {
 				case 'finish':
 					//streiche alle verbleibenden Teilnehmer, so als hätten sie skip eingegeben
 					//auswerten
-					for (var member in conversationData.participiants) {
-						await context.sendActivity(`${conversationData.estimations[member.id]}'`);
-					}
+					await context.sendActivity(`${conversationData.participiants.length}'`);
 					//zurücksetzen
 					conversationData.currentRound = "";
 					conversationData.participiants = [];
