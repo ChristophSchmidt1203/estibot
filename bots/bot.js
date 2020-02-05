@@ -47,10 +47,7 @@ class EchoBot extends TeamsActivityHandler {
 					const members = await TeamsInfo.getMembers(context);
 					
 					members.forEach(async (teamMember) => {
-						await context.sendActivity(`name:      '${teamMember.name}'`);
-						await context.sendActivity(`id:        '${teamMember.id}'`);
-						await context.sendActivity(`givenname: '${teamMember.givenname}'`);
-						await context.sendActivity(`surname:   '${teamMember.surname}'`);
+						await context.sendActivity(`name: '${teamMember.name}', id: '${teamMember.id}', givenname: '${teamMember.givenName}', surname: '${teamMember.surname}'`);
 					});
 
 					await this.messageAllMembersAsync(context, "Give me your estimation by telling me 'esti x', where x is your nummerical estimation without a unit. For example 'esti 5'. Use 'skip' to skip this round.");
