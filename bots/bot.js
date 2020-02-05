@@ -61,13 +61,20 @@ class EchoBot extends TeamsActivityHandler {
 					//auswerten
 					await context.sendActivity(`par: '${conversationData.participiants.length}', est: '${conversationData.estimations.length}'`);
 					
-					for (let cnt = 0;  cnt < conversationData.participiants.length; cnt++) {
-						await context.sendActivity(`'${conversationData.participiants[cnt].name}'`);
+					let estimationCnt = new Map();
+										
+					for (let cnt = 0;  cnt < conversationData.estimations.length; cnt++) {
+						if (estimationCnt.has(conversationData.estimations[cnt].estimation)) {
+							estimationCnt.get(conversationData.estimations[cnt].estimation) += 1;
+						} else {
+							estimationCnt.set(conversationData.estimations[cnt].estimation, 1);
+						}
 					}
 					
-					for (let cnt = 0;  cnt < conversationData.estimations.length; cnt++) {
-						await context.sendActivity(`'${conversationData.estimations[0].estimation}'`)
+					for (let entry of estimationCnt) {
+						await context.sendActivity(`'${entry.key}' = '${entry.value}'`)
 					}
+					
 					//zurücksetzen
 					conversationData.currentRound = "";
 					conversationData.participiants = [];
