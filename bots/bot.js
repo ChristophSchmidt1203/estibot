@@ -71,6 +71,8 @@ class EchoBot extends TeamsActivityHandler {
 						}
 					}
 					
+					await context.sendActivity(`${estimationCnt.size}`);
+					
 					for (let entry of estimationCnt) {
 						await context.sendActivity(`'${entry.key}' = '${entry.value}'`)
 					}
