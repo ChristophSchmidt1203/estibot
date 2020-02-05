@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityHandler, TurnContext, TeamsInfo, ConversationState, MemoryStorage, UserState } = require('botbuilder');
+const { TeamsActivityHandler, TurnContext, TeamsInfo, MessageFactory, ConversationState, MemoryStorage, UserState } = require('botbuilder');
 
-class EchoBot extends ActivityHandler {
+class EchoBot extends TeamsActivityHandler {
 	constructor() {
 		super();
 		// See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
