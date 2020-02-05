@@ -3,9 +3,23 @@
 
 const { TeamsActivityHandler, TurnContext, TeamsInfo, MessageFactory, ConversationState, MemoryStorage, UserState } = require('botbuilder');
 
+// The accessor names for the conversation data and user profile state property accessors.
+const CONVERSATION_DATA_PROPERTY = 'conversationData';
+const USER_PROFILE_PROPERTY = 'userProfile';
+
 class EchoBot extends TeamsActivityHandler {
-	constructor() {
+
+	constructor(conversationState, userState) {
 		super();
+
+		// Create the state property accessors for the conversation data and user profile.
+		this.conversationDataAccessor = conversationState.createProperty(CONVERSATION_DATA_PROPERTY);
+		this.userProfileAccessor = userState.createProperty(USER_PROFILE_PROPERTY);
+
+		// The state management objects for the conversation and user state.
+		this.conversationState = conversationState;
+		this.userState = userState;
+
 		// See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
 		this.onMessage(async (context, next) => {
 			await context.sendActivity(`input: '${context.activity.text}'`);
@@ -16,24 +30,42 @@ class EchoBot extends TeamsActivityHandler {
 			const command = tokens[0];
 			const args = tokens.slice(1);
 
+			const conversationData = await this.conversationDataAccessor.get(
+				context, { currentRound: "", participiants: [], estimations: [] });
+
 			await context.sendActivity(`command: '${command}'`);
 			await context.sendActivity(`args: '${args.join(" ")}'`);
 
 			switch (command) {
 				case 'start':
 					await context.sendActivity(`Starting Estimation Poker for '${args.join(" ")}'`);
+
+					// Add message details to the conversation data.
+					conversationData.currentRound = args.join(" ");
+					conversationData.participiants = TeamsInfo.getMembers(context);
+
 					await this.messageAllMembersAsync(context, "Give me your estimation by telling me 'esti x', where x is your nummerical estimation without a unit. For example 'esti 5'. Use 'skip' to skip this round.");
 					break;
 				case 'skip':
 					//streiche sender von der Teilnehmerliste der aktuellen Runde, ohne einen Wert für ihn zu erfassen
-					await context.sendActivity(`${ context.activity.from } skipped`);
+					await context.sendActivity(`${context.activity.from.name} skipped '${conversationData.currentRound}'`);
 					break;
 				case 'esti':
 					//streiche sender von der Teilnehmerliste und erfasse tokens[1] als Schätzwert für ihn
-					await context.sendActivity(`${ context.activity.from } estimates ${ tokens[1] } units.`);
+					await context.sendActivity(`${context.activity.from.name} estimates ${tokens[1]} units for '${conversationData.currentRound}'.`);
+					break;
+				case 'finish':
+					//streiche alle verbleibenden Teilnehmer, so als hätten sie skip eingegeben
+					//auswerten
+					//zurücksetzen
+					conversationData.currentRound = "";
+					conversationData.participiants = [];
+
 					break;
 				default:
 					await context.sendActivity(`Unsupported command: '${command}'`);
+
+
 
 					break;
 			}
@@ -141,7 +173,7 @@ class EchoBot extends TeamsActivityHandler {
 
 		members.forEach(async (teamMember) => {
 			//const message = MessageFactory.text(`Hello ${teamMember.givenName} ${teamMember.surname}. I'm a Teams conversation bot.`);
-			const output = MessageFactory.text(`${ message }`);
+			const output = MessageFactory.text(`${message}`);
 
 			var ref = TurnContext.getConversationReference(context.activity);
 			ref.user = teamMember;
@@ -156,6 +188,17 @@ class EchoBot extends TeamsActivityHandler {
 		});
 
 		//await context.sendActivity(MessageFactory.text('All messages have been sent.'));
+	}
+
+	/**
+ * Override the ActivityHandler.run() method to save state changes after the bot logic completes.
+ */
+	async run(context) {
+		await super.run(context);
+
+		// Save state changes
+		await this.conversationState.saveChanges(context);
+		await this.userState.saveChanges(context);
 	}
 }
 
