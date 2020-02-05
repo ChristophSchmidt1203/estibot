@@ -9,6 +9,7 @@ class EchoBot extends ActivityHandler {
 		// See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
 		this.onMessage(async (context, next) => {
 			await context.sendActivity(`Your message contains: text: '${context.activity.text}'`);
+			const turnContext = new TurnContext(this, context.activity);
 
 			const input = context.activity.text;
 
