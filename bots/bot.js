@@ -14,11 +14,11 @@ class EchoBot extends ActivityHandler {
 			const input = context.activity.text.trim();
 			const tokens = input.split("\s");
 			const command = tokens[0];
-			const arguments = tokens.slice(1);
+			const args = tokens.slice(1);
 
 			switch (command) {
 				case 'start':
-					await context.sendActivity(`Starting Estimation Poker '${arguments.join(" ")}'`);
+					await context.sendActivity(`Starting Estimation Poker '${args.join(" ")}'`);
 					break;
 				default:
 					await context.sendActivity(`Unsupported command: '${tokens[0]}'`);
