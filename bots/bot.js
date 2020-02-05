@@ -54,12 +54,20 @@ class EchoBot extends TeamsActivityHandler {
 				case 'esti':
 					//streiche sender von der Teilnehmerliste und erfasse tokens[1] als Schätzwert für ihn
 					await context.sendActivity(`${context.activity.from.name} estimates ${tokens[1]} units for '${conversationData.currentRound}'.`);
-					conversationData.estimations.push({id: context.activity.from.id, esti: tokens[1]});
+					conversationData.estimations.push({id: context.activity.from.id, estimation: tokens[1]});
 					break;
 				case 'finish':
 					//streiche alle verbleibenden Teilnehmer, so als hätten sie skip eingegeben
 					//auswerten
 					await context.sendActivity(`par: '${conversationData.participiants.length}', est: '${conversationData.estimations.length}'`);
+					
+					for (var part in conversationData.participiants) {
+						await context.sendActivity(`'${part.name}'`);
+					}
+					
+					for (var esti in converationData.estimations) {
+						await context.sendActivity(`'${esti.estimation}'`)
+					}
 					//zurücksetzen
 					conversationData.currentRound = "";
 					conversationData.participiants = [];
@@ -68,26 +76,12 @@ class EchoBot extends TeamsActivityHandler {
 					break;
 				default:
 					await context.sendActivity(`Unsupported command: '${command}'`);
-
-
-
 					break;
 			}
-
-
-
-
-
-
-
 
 			// By calling next() you ensure that the next BotHandler is run.
 			await next();
 		});
-
-
-
-
 
 
 		this.onMembersAdded(async (context, next) => {
