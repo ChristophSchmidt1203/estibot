@@ -16,15 +16,16 @@ class EchoBot extends ActivityHandler {
 			const command = tokens[0];
 			const args = tokens.slice(1);
 
-			await context.sendActivity(`command: '${ command }'`);
-			await context.sendActivity(`args: '${ args.join(" ") }'`);
+			await context.sendActivity(`command: '${command}'`);
+			await context.sendActivity(`args: '${args.join(" ")}'`);
 
 			switch (command) {
 				case 'start':
-					await context.sendActivity(`Starting Estimation Poker '${ args.join(" ") }'`);
+					await context.sendActivity(`Starting Estimation Poker for '${args.join(" ")}'`);
+					await this.messageAllMembersAsync(context, "Give me your estimation by telling me 'esti x', where x is your nummerical estimation without a unit. For example 'esti 5'. Use 'skip' to skip this round.");
 					break;
 				default:
-					await context.sendActivity(`Unsupported command: '${ command }'`);
+					await context.sendActivity(`Unsupported command: '${command}'`);
 
 					break;
 			}
@@ -123,6 +124,30 @@ class EchoBot extends ActivityHandler {
 		//
 		//
 		//
+	}
+
+	// If you encounter permission-related errors when sending this message, see
+	// https://aka.ms/BotTrustServiceUrl
+	async messageAllMembersAsync(context, message) {
+		const members = await TeamsInfo.getMembers(context);
+
+		members.forEach(async (teamMember) => {
+			//const message = MessageFactory.text(`Hello ${teamMember.givenName} ${teamMember.surname}. I'm a Teams conversation bot.`);
+			const message = MessageFactory.text(`${ message }`);
+
+			var ref = TurnContext.getConversationReference(context.activity);
+			ref.user = teamMember;
+
+			await context.adapter.createConversation(ref,
+				async (t1) => {
+					const ref2 = TurnContext.getConversationReference(t1.activity);
+					await t1.adapter.continueConversation(ref2, async (t2) => {
+						await t2.sendActivity(message);
+					});
+				});
+		});
+
+		//await context.sendActivity(MessageFactory.text('All messages have been sent.'));
 	}
 }
 
