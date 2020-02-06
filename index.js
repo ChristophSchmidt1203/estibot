@@ -10,8 +10,7 @@ const restify = require('restify');
 const { BotFrameworkAdapter, UserState, MemoryStorage, ConversationState } = require('botbuilder');
 
 // This bot's main dialog.
-const { EchoBot } = require('./bots/bot');
-const { ConvoBot } = require('./bots/teamsconvobot');
+const { EstiBot } = require('./bots/bot');
 
 // Import required bot configuration.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -63,7 +62,7 @@ const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage);
 
 // Create the main dialog.
-const myBot = new EchoBot(conversationState, userState);
+const myBot = new EstiBot(conversationState, userState);
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {

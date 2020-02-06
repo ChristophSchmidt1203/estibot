@@ -7,7 +7,7 @@ const { TeamsActivityHandler, TurnContext, TeamsInfo, MessageFactory, Conversati
 const CONVERSATION_DATA_PROPERTY = 'conversationData';
 const USER_PROFILE_PROPERTY = 'userProfile';
 
-class EchoBot extends TeamsActivityHandler {
+class EstiBot extends TeamsActivityHandler {
 
 	constructor(conversationState, userState) {
 		super();
@@ -206,4 +206,4 @@ class EchoBot extends TeamsActivityHandler {
 	}
 }
 
-module.exports.EchoBot = EchoBot;
+module.exports.EstiBot = EstiBot;
